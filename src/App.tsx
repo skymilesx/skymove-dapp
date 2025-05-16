@@ -1,9 +1,9 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ethers } from 'ethers';
 import { Contract } from './contracts/SkyMoveToken';
 import { formatUnits, parseUnits } from '@ethersproject/units';
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import { Web3Provider } from '@ethersproject/providers';
 import { Contract as EthersContract } from '@ethersproject/contracts';
 
 interface TokenInfo {
@@ -39,7 +39,6 @@ function App() {
   const [selectedFunction, setSelectedFunction] = useState('');
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
-  const [spender, setSpender] = useState('');
   const [newFee, setNewFee] = useState('');
   const [isExcluded, setIsExcluded] = useState(false);
 
@@ -57,18 +56,21 @@ function App() {
   const updateTokenInfo = async (address: string, provider: Web3Provider) => {
     const contract = new EthersContract(Contract.address, Contract.abi, provider);
     
-    const [name, symbol, decimals, totalSupply, balance, allowance, buyFee, sellFee, transferFee, isPaused, isExcluded] = await Promise.all([
+    const [name, symbol, decimals, totalSupply, balance, buyFee, sellFee, transferFee, isPaused, isExcluded] = await Promise.all([
       contract.name(),
       contract.symbol(),
       contract.decimals(),
       contract.totalSupply(),
       contract.balanceOf(address),
-      contract.allowance(address, spender || address),
       contract.buyFee(),
       contract.sellFee(),
       contract.transferFee(),
       contract.paused(),
       contract.isExcludedFromFee(address)
+    ]);
+
+    const [allowance] = await Promise.all([
+      contract.allowance(address, address),
     ]);
 
     setTokenInfo({
@@ -95,8 +97,7 @@ function App() {
 
       const args = {
         recipient,
-        amount: parseUnits(amount, 18),
-        spender: spender || account,
+        amount: parseUnits(amount, tokenInfo.decimals),
         newFee: parseUnits(newFee, 0)
       };
 
@@ -107,7 +108,7 @@ function App() {
           tx = await contract.transfer(args.recipient, args.amount);
           break;
         case 'approve':
-          tx = await contract.approve(args.spender, args.amount);
+          tx = await contract.approve(args.recipient, args.amount);
           break;
         case 'transferFrom':
           tx = await contract.transferFrom(account!, args.recipient, args.amount);
