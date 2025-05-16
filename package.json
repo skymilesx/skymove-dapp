@@ -2,7 +2,7 @@
   "name": "skymove-dapp-vercel",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://skymilesx.github.io/skymove-dapp",
+  "homepage": "https://skymilesx.github.io/skymove-dapp-vercel",
   "dependencies": {
     "@ethersproject/abi": "^5.8.0",
     "@ethersproject/contracts": "^5.8.0",
