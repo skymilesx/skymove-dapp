@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/skymove-dapp/static/css/main.e6c13ad2.css",
+    "main.js": "/skymove-dapp/static/js/main.8dff5ea6.js",
+    "static/js/453.7e9d57b4.chunk.js": "/skymove-dapp/static/js/453.7e9d57b4.chunk.js",
+    "index.html": "/skymove-dapp/index.html",
+    "main.e6c13ad2.css.map": "/skymove-dapp/static/css/main.e6c13ad2.css.map",
+    "main.8dff5ea6.js.map": "/skymove-dapp/static/js/main.8dff5ea6.js.map",
+    "453.7e9d57b4.chunk.js.map": "/skymove-dapp/static/js/453.7e9d57b4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.8dff5ea6.js"
+  ]
+}
